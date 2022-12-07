@@ -12,7 +12,7 @@ class App extends React.Component {
     cardImage: '',
     cardRare: '',
     cardTrunfo: false,
-    // hasTrunfo,
+    hasTrunfo: false,
     isSaveButtonDisabled: true,
     cardsRegistered: [],
   };
@@ -42,6 +42,10 @@ class App extends React.Component {
     });
   };
 
+  // validateTrunfo = () => {
+  //   const { cardTrunfo } = this.state;
+  // };
+
   onInputChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -54,6 +58,7 @@ class App extends React.Component {
     e.preventDefault();
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
       cardImage, cardRare, cardTrunfo } = this.state;
+
     const newCard = { cardName,
       cardDescription,
       cardAttr1,
@@ -73,6 +78,7 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'Normal',
       cardTrunfo: false,
+      hasTrunfo: cardTrunfo,
       isSaveButtonDisabled: true,
       cardsRegistered: [...cardsRegistered, newCard],
     }));
