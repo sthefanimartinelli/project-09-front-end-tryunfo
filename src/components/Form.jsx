@@ -19,7 +19,7 @@ class Form extends React.Component {
     } = this.props;
 
     return (
-      <form action="">
+      <form action="" onSubmit={ onSaveButtonClick }>
         <label htmlFor="name-input">
           Nome da carta
           <input

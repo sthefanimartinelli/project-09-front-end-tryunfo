@@ -14,6 +14,7 @@ class App extends React.Component {
     cardTrunfo: false,
     // hasTrunfo,
     isSaveButtonDisabled: true,
+    cardsRegistered: [],
   };
 
   validateFields = () => {
@@ -49,11 +50,36 @@ class App extends React.Component {
     }, this.validateFields);
   };
 
-  onSaveButtonClick = () => {
+  onSaveButtonClick = (e) => {
+    e.preventDefault();
+    const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
+      cardImage, cardRare, cardTrunfo } = this.state;
+    const newCard = { cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+    };
 
+    this.setState(({ cardsRegistered }) => ({
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
+      cardImage: '',
+      cardRare: 'Normal',
+      cardTrunfo: false,
+      isSaveButtonDisabled: true,
+      cardsRegistered: [...cardsRegistered, newCard],
+    }));
   };
 
   render() {
+    // const { cardsRegistered } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -63,6 +89,10 @@ class App extends React.Component {
           onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card { ...this.state } />
+        {/* {cardsRegistered.map((card) => (<Card
+          key={ card.cardName }
+          card={ this.state }
+        />))} */}
       </div>
     );
   }
