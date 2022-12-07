@@ -42,10 +42,6 @@ class App extends React.Component {
     });
   };
 
-  // validateTrunfo = () => {
-  //   const { cardTrunfo } = this.state;
-  // };
-
   onInputChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -85,7 +81,7 @@ class App extends React.Component {
   };
 
   render() {
-    // const { cardsRegistered } = this.state;
+    const { cardsRegistered } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -95,10 +91,27 @@ class App extends React.Component {
           onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card { ...this.state } />
-        {/* {cardsRegistered.map((card) => (<Card
-          key={ card.cardName }
-          card={ this.state }
-        />))} */}
+        { cardsRegistered.map((card) => {
+          const { cardName,
+            cardDescription,
+            cardAttr1,
+            cardAttr2,
+            cardAttr3,
+            cardImage,
+            cardRare,
+            cardTrunfo } = card;
+          return (<Card
+            key={ cardName }
+            cardName={ cardName }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardImage={ cardImage }
+            cardRare={ cardRare }
+            cardTrunfo={ cardTrunfo }
+          />);
+        })}
       </div>
     );
   }
