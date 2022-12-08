@@ -53,7 +53,7 @@ class App extends React.Component {
   onSaveButtonClick = (e) => {
     e.preventDefault();
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3,
-      cardImage, cardRare, cardTrunfo } = this.state;
+      cardImage, cardRare, cardTrunfo, hasTrunfo } = this.state;
 
     const newCard = { cardName,
       cardDescription,
@@ -74,10 +74,25 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'Normal',
       cardTrunfo: false,
-      hasTrunfo: cardTrunfo,
+      hasTrunfo: cardTrunfo ? true : hasTrunfo,
       isSaveButtonDisabled: true,
       cardsRegistered: [...cardsRegistered, newCard],
     }));
+  };
+
+  excludeCard = (btnName) => {
+    const { cardsRegistered, hasTrunfo } = this.state;
+    let isSuperTrunfo = false;
+    const newCards = cardsRegistered.filter((card) => {
+      if (card.cardName === btnName) {
+        isSuperTrunfo = card.cardTrunfo;
+      }
+      return card.cardName !== btnName;
+    });
+    this.setState({
+      hasTrunfo: isSuperTrunfo ? false : hasTrunfo,
+      cardsRegistered: newCards,
+    }, () => this.onSaveButtonClick);
   };
 
   render() {
@@ -91,27 +106,41 @@ class App extends React.Component {
           onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card { ...this.state } />
-        { cardsRegistered.map((card) => {
-          const { cardName,
-            cardDescription,
-            cardAttr1,
-            cardAttr2,
-            cardAttr3,
-            cardImage,
-            cardRare,
-            cardTrunfo } = card;
-          return (<Card
-            key={ cardName }
-            cardName={ cardName }
-            cardDescription={ cardDescription }
-            cardAttr1={ cardAttr1 }
-            cardAttr2={ cardAttr2 }
-            cardAttr3={ cardAttr3 }
-            cardImage={ cardImage }
-            cardRare={ cardRare }
-            cardTrunfo={ cardTrunfo }
-          />);
-        })}
+        <section>
+          { cardsRegistered.map((card) => {
+            const { cardName,
+              cardDescription,
+              cardAttr1,
+              cardAttr2,
+              cardAttr3,
+              cardImage,
+              cardRare,
+              cardTrunfo } = card;
+            return (
+              <div key={ cardName }>
+                <Card
+                  key={ cardName }
+                  cardName={ cardName }
+                  cardDescription={ cardDescription }
+                  cardAttr1={ cardAttr1 }
+                  cardAttr2={ cardAttr2 }
+                  cardAttr3={ cardAttr3 }
+                  cardImage={ cardImage }
+                  cardRare={ cardRare }
+                  cardTrunfo={ cardTrunfo }
+                />
+                <button
+                  type="button"
+                  data-testid="delete-button"
+                  onClick={ () => this.excludeCard(cardName) }
+                >
+                  Excluir
+                </button>
+                ;
+              </div>
+            );
+          })}
+        </section>
       </div>
     );
   }
